@@ -7,6 +7,8 @@ import { config } from './config'
 
 // ================= 组件 =================
 import PasswordGate from './components/PasswordGate.vue'  // 密码文件夹
+const pwdRef = ref(null)
+
 import R18Gate from './components/R18Gate.vue'  // r18文件夹
 
 // 无权访问文件夹 
@@ -14,6 +16,8 @@ import ForbiddenPage from './components/ForbiddenPage.vue'
 import { forbiddenFolders } from './config'
 
 import NotFound from './components/NotFound.vue'  // 404
+
+import Footer from './components/Footer.vue'  // Footer
 
 // ================= 改这里 =================
 const OWNER = 'mmzyc'
@@ -195,7 +199,7 @@ onBeforeUnmount(() => {
         </template>
       </nav>
 
-      <nav v-if="!loading && !error && subfolders.length" class="folders">
+      <nav v-if="!loading && !error && subfolders.length && !pwdRef?.locked && !isForbidden" class="folders">
         <button
           v-for="f in subfolders"
           :key="f"
@@ -210,7 +214,7 @@ onBeforeUnmount(() => {
 
     <main class="content">
       <ForbiddenPage v-if="isForbidden" :folder="activeFolder" />
-      <PasswordGate v-else :folder="activeFolder">
+      <PasswordGate v-else ref="pwdRef" :folder="activeFolder">
         <R18Gate :folder="activeFolder" />
         <div v-if="loading" class="grid">
           <div v-for="i in 12" :key="i" class="skeleton"></div>
@@ -271,5 +275,7 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </Transition>
+
+    <Footer />
   </div>
 </template>

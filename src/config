@@ -1,13 +1,15 @@
 // ================= 主页显示 =================
 export const config = {
     name : '棉の图床',
-    disc : '这里是木锦棉棉の图床可视化页面'
+    disc : '这里是木锦棉棉の图床可视化页面',
+    author : '木锦棉棉'
 }
 
 // ================= 组件配置 =================
 // 密码文件夹
 export const passwords = {
-    'img': { password: '676767', hint: '111'}
+    'img': { password: '676767', hint: '111'},
+    'others': { password: '520.liuying', hint: '抖音号' },
 }
 
 // r18文件夹
@@ -18,5 +20,6 @@ export const r18Folders = [
 // 无权访问的文件夹（完整路径，或其前缀）
 // 命中规则：路径完全相等，或路径以「配置项 + /」开头
 export const forbiddenFolders = [
-    'img'
+    'img',
+    // 'others'
 ]

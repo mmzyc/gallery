@@ -17,7 +17,20 @@ const props = defineProps({
 const input = ref('')
 const error = ref('')
 
-const config = computed(() => passwords[props.folder])
+// 从当前文件夹向上找，第一个有密码配置的文件夹
+const matchedFolder = computed(() => {
+  const cur = props.folder || ''
+  const parts = cur.split('/')
+  for (let i = parts.length; i > 0; i--) {
+    const path = parts.slice(0, i).join('/')
+    if (passwords[path]) return path
+  }
+  return null
+})
+
+const config = computed(() =>
+  matchedFolder.value ? passwords[matchedFolder.value] : null
+)
 
 const cookieTick = ref(0)
 
@@ -42,12 +55,12 @@ function cookieKey(folder) {
 const locked = computed(() => {
   cookieTick.value
   if (!config.value) return false
-  return getCookie(cookieKey(props.folder)) !== '1'
+  return getCookie(cookieKey(matchedFolder.value)) !== '1'
 })
 
 function tryUnlock() {
   if (input.value === config.value.password) {
-    setCookie(cookieKey(props.folder), '1', 1)   // 1 小时
+    setCookie(cookieKey(matchedFolder.value), '1', 1)   // 1 小时
     cookieTick.value++
     input.value = ''
     error.value = ''
@@ -55,6 +68,8 @@ function tryUnlock() {
     error.value = '密码错误'
   }
 }
+
+defineExpose({ locked })
 
 // 切换文件夹时清空输入和错误
 watch(() => props.folder, () => {
@@ -72,7 +87,7 @@ watch(() => props.folder, () => {
     <form @submit.prevent="tryUnlock">
       <input
         v-model="input"
-        type="password"
+        type="text"
         class="gate-input"
         placeholder="请输入密码"
         autocomplete="current-password"
