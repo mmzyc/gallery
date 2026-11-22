@@ -2,8 +2,9 @@ import { ref, watchEffect } from 'vue'
 
 const STORAGE_KEY = 'gallery-theme'
 const saved = localStorage.getItem(STORAGE_KEY)
-const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
-const theme = ref(saved || (prefersLight ? 'light' : 'dark'))
+// const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+// const theme = ref(saved || (prefersLight ? 'light' : 'dark'))
+const theme = ref(saved || 'light')
 
 watchEffect(() => {
   document.documentElement.dataset.theme = theme.value

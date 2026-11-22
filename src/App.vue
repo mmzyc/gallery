@@ -25,10 +25,17 @@ const REPO  = 'MianImage'
 const BRANCH = 'main'
 const ROOT_FOLDER = 'others'
 // 图床 CDN 前缀，末尾要带 /
-const CDN = 'https://cdn.jsdelivr.net/gh/'
+// const CDN = 'https://cdn.jsdelivr.net/gh/'
 // 注意：jsDelivr 的完整格式是 https://cdn.jsdelivr.net/gh/用户名/仓库名@分支/
 // 所以下面自动拼上 owner/repo@branch
-const FULL_CDN = `${CDN}${OWNER}/${REPO}@${BRANCH}/`
+// const FULL_CDN = `${CDN}${OWNER}/${REPO}@${BRANCH}/`
+
+// Gh-proxy 加速前缀
+const PROXY_PREFIX = 'https://gh-proxy.org/'
+// GitHub Raw 文件的基础地址
+const GITHUB_RAW_BASE = `raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/`
+// 完整的 CDN 前缀 = Gh-proxy 代理前缀 + GitHub Raw 基础地址
+const FULL_CDN = `${PROXY_PREFIX}${GITHUB_RAW_BASE}`
 
 // const name = '棉の图床'
 // const disc = '这里是木锦棉棉の图床可视化页面'
